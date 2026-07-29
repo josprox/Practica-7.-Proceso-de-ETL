@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practica_7_Proceso_ETL_Melchor_Jose</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Mermaid JS CDN para Renderizado Dinámico del Flujo ETL y Modelo Estrella -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --color-primary: #002F6C;
+      --color-secondary: #0082C8;
+      --color-accent: #C5A059;
+      --color-dark: #1E293B;
+      --color-light: #F8FAFC;
+      --color-border: #E2E8F0;
+      --font-headings: 'Montserrat', sans-serif;
+      --font-body: 'Lora', serif;
+      --font-mono: 'Fira Code', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #E2E8F0;
+      font-family: var(--font-body);
+      color: var(--color-dark);
+      line-height: 1.45;
+      font-size: 9pt;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    .floating-print-btn {
+      position: fixed; top: 20px; right: 20px; z-index: 1000;
+      background: rgba(0,47,108,0.95); color: white;
+      border: 1px solid var(--color-accent); padding: 12px 24px;
+      border-radius: 30px; font-family: var(--font-headings);
+      font-weight: 700; font-size: 13px; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      backdrop-filter: blur(10px); transition: all 0.3s ease;
+      display: flex; align-items: center; gap: 10px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .floating-print-btn:hover {
+      background: var(--color-accent); color: var(--color-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(197,160,89,0.4);
+    }
+    .page-container { display: flex; flex-direction: column; gap: 40px; width: 215.9mm; }
+    .page {
+      background: #FFFFFF; width: 215.9mm; height: 279.4mm;
+      padding: 18mm 15mm 22mm 15mm;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12); border-radius: 4px;
+      position: relative; overflow: hidden; display: flex; flex-direction: column;
+    }
+    .page-header {
+      position: absolute; top: 8mm; left: 15mm; right: 15mm;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--color-border); padding-bottom: 5px;
+      font-family: var(--font-headings); font-size: 8pt; color: #64748B;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .page-footer {
+      position: absolute; bottom: 8mm; left: 15mm; right: 15mm;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--color-border); padding-top: 5px;
+      font-family: var(--font-headings); font-size: 8pt; color: #64748B;
+    }
+    .page-content {
+      height: 100%; display: flex; flex-direction: column;
+      margin-top: 4mm; margin-bottom: 4mm; padding-bottom: 4mm;
+      justify-content: flex-start;
+    }
+    h1, h2, h3, h4 { font-family: var(--font-headings); color: var(--color-primary); font-weight: 700; }
+    h1 {
+      font-size: 20pt; line-height: 1.2;
+      border-bottom: 3px solid var(--color-accent); padding-bottom: 8px; margin-bottom: 14px;
+    }
+    h2 {
+      font-size: 12pt; margin-top: 5px; margin-bottom: 8px;
+      border-left: 4px solid var(--color-accent); padding-left: 10px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    h3 {
+      font-size: 10pt; margin-top: 6px; margin-bottom: 4px; color: var(--color-secondary);
+    }
+    p { margin-bottom: 5px; text-align: justify; text-indent: 12px; color: #334155; }
+    p.no-indent { text-indent: 0; }
+
+    /* Portada Styles */
+    .portada {
+      padding: 15mm 15mm; display: flex; flex-direction: column;
+      justify-content: space-between; align-items: center; height: 100%;
+      border: 6px double var(--color-primary);
+      outline: 2px solid var(--color-accent); outline-offset: -12px;
+    }
+    .portada-header { text-align: center; width: 100%; }
+    .portada-logo-container { display: flex; justify-content: center; margin-bottom: 8px; }
+    .portada-unitec-title {
+      font-family: var(--font-headings); font-weight: 800; font-size: 15pt;
+      color: var(--color-primary); letter-spacing: 2px; text-transform: uppercase;
+    }
+    .portada-unitec-sub {
+      font-family: var(--font-headings); font-weight: 500; font-size: 9.5pt;
+      color: var(--color-accent); letter-spacing: 3px; text-transform: uppercase; margin-top: 4px;
+    }
+    .portada-divider {
+      width: 65%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+      margin: 12px auto;
+    }
+    .portada-materia-tag {
+      font-family: var(--font-headings); font-size: 10.5pt; font-weight: 600;
+      color: var(--color-secondary); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px;
+    }
+    .portada-title-container { text-align: center; margin: 10px 0; padding: 10px 15px; }
+    .portada-project-label {
+      font-family: var(--font-headings); font-size: 9.5pt; color: #64748B;
+      text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 6px;
+    }
+    .portada-project-title {
+      font-family: var(--font-headings); font-weight: 800; font-size: 17pt;
+      color: var(--color-primary); line-height: 1.3; margin-bottom: 8px;
+    }
+    .portada-project-sub {
+      font-family: var(--font-body); font-style: italic; font-size: 10pt; color: #475569;
+    }
+    .portada-details-grid {
+      display: grid; grid-template-columns: 1fr 1fr; width: 100%;
+      gap: 12px; padding: 12px; background-color: var(--color-light);
+      border-radius: 6px; border-top: 3px solid var(--color-primary);
+    }
+    .portada-detail-item { font-family: var(--font-headings); font-size: 8.5pt; }
+    .portada-detail-label {
+      color: #64748B; text-transform: uppercase; font-weight: 700;
+      font-size: 7pt; letter-spacing: 0.5px; margin-bottom: 2px;
+    }
+    .portada-detail-value { color: var(--color-primary); font-weight: 600; }
+    .portada-footer {
+      text-align: center; font-family: var(--font-headings);
+      font-size: 8pt; color: #64748B; letter-spacing: 1px; text-transform: uppercase;
+    }
+
+    /* Mermaid Container */
+    .mermaid-card {
+      background: #FFFFFF; border: 1px solid var(--color-border);
+      border-radius: 8px; padding: 10px; margin-top: 5px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05); flex: 1;
+    }
+    .mermaid { width: 100%; text-align: center; }
+
+    /* Tables */
+    .data-table {
+      width: 100%; border-collapse: collapse; margin: 6px 0; font-size: 8pt;
+    }
+    .data-table th {
+      background-color: var(--color-primary); color: #FFFFFF;
+      font-family: var(--font-headings); text-transform: uppercase;
+      padding: 6px 8px; text-align: left; font-size: 7.5pt;
+    }
+    .data-table td {
+      padding: 4px 8px; border-bottom: 1px solid var(--color-border); vertical-align: middle;
+    }
+    .data-table tr:nth-child(even) { background-color: var(--color-light); }
+
+    .badge-ok { background: #DCFCE7; color: #166534; font-weight: 700; padding: 2px 6px; border-radius: 4px; font-size: 7.5pt; }
+    .badge-rej { background: #FEE2E2; color: #991B1B; font-weight: 700; padding: 2px 6px; border-radius: 4px; font-size: 7.5pt; }
+    .badge-info { background: #E0F2FE; color: #0369A1; font-weight: 700; padding: 2px 6px; border-radius: 4px; font-size: 7.5pt; }
+
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    .info-card {
+      background: var(--color-light); border: 1px solid var(--color-border);
+      border-left: 3px solid var(--color-secondary); border-radius: 4px;
+      padding: 8px; font-size: 8pt;
+    }
+    .info-card-title {
+      font-family: var(--font-headings); font-weight: 700;
+      color: var(--color-primary); font-size: 8.5pt; margin-bottom: 3px;
+    }
+
+    code-block {
+      font-family: var(--font-mono); font-size: 7.5pt; background: #0F172A; color: #F1F5F9;
+      padding: 8px; border-radius: 4px; display: block; white-space: pre-wrap; margin: 4px 0;
+    }
+
+    @media print {
+      body { background: #FFFFFF; padding: 0; margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .floating-print-btn { display: none !important; }
+      .page-container { gap: 0; padding-bottom: 0; width: 100%; }
+      .page {
+        box-shadow: none; border-radius: 0; margin: 0;
+        padding: 18mm 15mm 22mm 15mm; width: 215.9mm; height: 279.4mm;
+        page-break-after: always; page-break-inside: avoid;
+      }
+      .mermaid-card { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Botón flotante para exportar a PDF -->
+  <button class="floating-print-btn" onclick="window.print()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 6 2 18 2 18 9"></polyline>
+      <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+      <rect x="6" y="14" width="12" height="8"></rect>
+    </svg>
+    Exportar a PDF
+  </button>
+
+  <div class="page-container">
+
+    <!-- ===== PÁGINA 1: PORTADA ===== -->
+    <div class="page" id="page-1">
+      <div class="portada">
+        <div class="portada-header">
+          <div class="portada-logo-container">
+            <img src="https://images.seeklogo.com/logo-png/32/2/universidad-tecnologica-de-mexico-logo-png_seeklogo-325972.png" alt="UNITEC Logo" style="height: 85px; width: auto; object-fit: contain;">
+          </div>
+          <div class="portada-unitec-title">Universidad Tecnológica de México</div>
+          <div class="portada-unitec-sub">Campus Ecatepec &mdash; México</div>
+          <div class="portada-divider"></div>
+          <div class="portada-materia-tag">UNI_263_35_LP_SC09S_TL0994 &bull; ANALITICA WEB</div>
+        </div>
+
+        <div class="portada-title-container">
+          <div class="portada-project-label">Actividad &bull; Práctica 7. Proceso de ETL</div>
+          <div class="portada-project-title">Simulación de un Proceso de ETL, Staging,<br>Control de Rechazos y Data Warehouse</div>
+          <div class="portada-project-sub">Diseño de Capa de Staging, Modelo Estrella (Dimensiones y Hechos), Reglas de Transformación, Auditoría de Rechazos y Reportes Gerenciales en SQL Server</div>
+        </div>
+
+        <div class="portada-details-grid">
+          <div class="portada-detail-item">
+            <div class="portada-detail-label">Alumno</div>
+            <div class="portada-detail-value">MELCHOR ESTRADA JOSÉ LUIS</div>
+          </div>
+          <div class="portada-detail-item">
+            <div class="portada-detail-label">Número de Cuenta</div>
+            <div class="portada-detail-value">336009446</div>
+          </div>
+          <div class="portada-detail-item">
+            <div class="portada-detail-label">Profesor</div>
+            <div class="portada-detail-value">ISRAEL CASTAÑON ROMERO</div>
+          </div>
+          <div class="portada-detail-item">
+            <div class="portada-detail-label">Clave de Materia / Grupo</div>
+            <div class="portada-detail-value">UNI_263_35_LP_SC09S_TL0994</div>
+          </div>
+          <div class="portada-detail-item">
+            <div class="portada-detail-label">Fecha de Entrega</div>
+            <div class="portada-detail-value">28 de julio de 2026</div>
+          </div>
+          <div class="portada-detail-item">
+            <div class="portada-detail-label">Entorno de Ejecución</div>
+            <div class="portada-detail-value">SQL Server (sqlserv.joss.red) + Python Modular</div>
+          </div>
+        </div>
+
+        <div class="portada-footer">
+          Ciencia y Tecnología con Humanismo
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PÁGINA 2: ARQUITECTURA ETL Y MODELO ESTRELLA (MERMAID) ===== -->
+    <div class="page" id="page-2">
+      <div class="page-header">
+        <span>UNITEC &bull; Analítica Web</span>
+        <span>Práctica 7: Proceso de ETL &bull; Arquitectura</span>
+      </div>
+      <div class="page-content">
+        <h2 style="margin-top: 0;">Arquitectura del Flujo ETL y Modelo Estrella</h2>
+        <p class="no-indent" style="font-size: 8.5pt; margin-bottom: 6px;">
+          El siguiente diagrama ilustra la canalización de datos desde las fuentes heterogéneas en bruto (Excel, CSV, Word) hacia la capa de <strong>Staging</strong>, la aplicación de filtros de calidad que dirigen registros anómalos a <code>etl_rechazos</code>, y la carga final en el Data Warehouse Dimensional (Modelo Estrella):
+        </p>
+
+        <div class="mermaid-card">
+          <div class="mermaid">
+graph TD
+    subgraph Fuentes ["1. Fuentes Crudas (Extract)"]
+        F1["usuarios_crudo (Excel)"]
+        F2["cursos_crudo (Excel)"]
+        F3["campanias_crudo (Excel)"]
+        F4["inscripciones_crudo (Excel)"]
+        F5["pagos_pasarela.csv"]
+        F6["reporte_campanias.docx"]
+    end
+
+    subgraph Staging ["2. Capa Staging (raw_load)"]
+        S1["stg_usuarios"]
+        S2["stg_cursos"]
+        S3["stg_campanias"]
+        S4["stg_inscripciones"]
+        S5["stg_reporte_campanias_doc"]
+    end
+
+    subgraph ETL ["3. Motor de Transformacion & Calidad"]
+        T1["Limpieza: LOWER, TRIM, Fechas, Precios"]
+        T2["Normalizacion: Ciudades, Canales, Modalidades"]
+        T3["Filtro de Validacion & Lookups"]
+    end
+
+    subgraph Rechazos ["4. Capa Auditoria"]
+        R["etl_rechazos<br/>(motivo, id_origen, timestamp)"]
+    end
+
+    subgraph DW ["5. Data Warehouse Dimensional (Modelo Estrella)"]
+        DU["dim_usuario<br/>(sk_usuario, correo, ciudad_norm)"]
+        DC["dim_curso<br/>(sk_curso, nombre, modalidad_norm)"]
+        DMP["dim_campania<br/>(sk_campania, canal_norm, responsable)"]
+        FI["fact_inscripciones<br/>(sk_inscripcion, monto_pagado, porcentaje_avance)"]
+    end
+
+    F1 --> S1
+    F2 --> S2
+    F3 --> S3
+    F4 --> S4
+    F6 --> S5
+
+    S1 --> T1
+    S2 --> T1
+    S3 --> T1
+    S4 --> T1
+    S5 --> T2
+
+    T1 --> T2 --> T3
+    
+    T3 -- "Invalido / Duplicado / Huerfano" --> R
+    T3 -- "Registro Valido" --> DU
+    T3 -- "Registro Valido" --> DC
+    T3 -- "Registro Valido" --> DMP
+
+    DU --> FI
+    DC --> FI
+    DMP --> FI
+
+    classDef fuente fill:#002F6C,stroke:#C5A059,stroke-width:1.5px,color:#FFFFFF;
+    classDef stg fill:#0082C8,stroke:#002F6C,stroke-width:1.5px,color:#FFFFFF;
+    classDef trans fill:#F8FAFC,stroke:#0082C8,stroke-width:1.5px,color:#002F6C;
+    classDef rej fill:#FEE2E2,stroke:#991B1B,stroke-width:1.5px,color:#991B1B;
+    classDef dw fill:#FFF3CD,stroke:#B58100,stroke-width:1.5px,color:#6B4E00;
+
+    class F1,F2,F3,F4,F5,F6 fuente;
+    class S1,S2,S3,S4,S5 stg;
+    class T1,T2,T3 trans;
+    class R rej;
+    class DU,DC,DMP,FI dw;
+          </div>
+        </div>
+      </div>
+      <div class="page-footer">
+        <span>MELCHOR ESTRADA JOSÉ LUIS &bull; 336009446</span>
+        <span>Página 2</span>
+      </div>
+    </div>
+
+    <!-- ===== PÁGINA 3: REGLAS DE NEGOCIO Y TABLA DE CONTROL (PUNTO 5) ===== -->
+    <div class="page" id="page-3">
+      <div class="page-header">
+        <span>UNITEC &bull; Analítica Web</span>
+        <span>Punto 5: Tabla de Control &bull; Reglas de Negocio</span>
+      </div>
+      <div class="page-content">
+        <h2 style="margin-top: 0;">Reglas de Transformación y Tabla de Control del Proceso ETL</h2>
+
+        <h3>Reglas de Negocio Aplicadas en la Transformación</h3>
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-card-title">Usuarios (stg_usuarios &rarr; dim_usuario)</div>
+            <p class="no-indent">&bull; Correos a minúsculas y sin espacios (<code>LOWER(TRIM(correo))</code>).</p>
+            <p class="no-indent">&bull; Rechazo de correos nulos, vacíos o sin arroba <code>@</code>.</p>
+            <p class="no-indent">&bull; Eliminación de duplicados manteniendo clave natural única.</p>
+            <p class="no-indent">&bull; Normalización de ciudades: <em>CDMX, EdoMex, Pue., Qro.</em></p>
+          </div>
+          <div class="info-card">
+            <div class="info-card-title">Cursos (stg_cursos &rarr; dim_curso)</div>
+            <p class="no-indent">&bull; Normalización de modalidades: <em>En vivo, Grabado, Híbrido</em>.</p>
+            <p class="no-indent">&bull; Conversión de montos de texto (<code>$800</code>, <code>MXN 900</code>) a <code>DECIMAL</code>.</p>
+            <p class="no-indent">&bull; Rechazo de costos no numéricos o nombres de cursos nulos.</p>
+          </div>
+          <div class="info-card">
+            <div class="info-card-title">Campañas (stg_campanias &rarr; dim_campania)</div>
+            <p class="no-indent">&bull; Normalización de canales: <em>IG &rarr; Instagram, FB &rarr; Facebook, Web &rarr; Sitio Web</em>.</p>
+            <p class="no-indent">&bull; Conversión de presupuestos a números; rechazo de presupuestos no numéricos (ej. <em>"no definido"</em>).</p>
+            <p class="no-indent">&bull; Enriquecimiento con responsable y objetivo del documento Word.</p>
+          </div>
+          <div class="info-card">
+            <div class="info-card-title">Inscripciones (stg_inscripciones &rarr; fact_inscripciones)</div>
+            <p class="no-indent">&bull; Conversión de montos a números y rechazo si <code>monto &le; 0</code>.</p>
+            <p class="no-indent">&bull; Normalización de fechas a <code>YYYY-MM-DD</code> y rechazo de fechas corruptas (ej. <em>"fecha mala"</em>).</p>
+            <p class="no-indent">&bull; <strong>Integridad Referencial:</strong> Rechazo si el usuario, curso o campaña no existen en las dimensiones.</p>
+            <p class="no-indent">&bull; Deduplicación por combinación única de usuario, curso, campaña y fecha.</p>
+          </div>
+        </div>
+
+        <h3>Punto 5: Tabla de Control del Proceso ETL</h3>
+        <p class="no-indent" style="margin-bottom: 4px;"><strong>Consulta SQL Utilizada:</strong></p>
+        <div style="font-family: var(--font-mono); font-size: 7.5pt; background: #0F172A; color: #F1F5F9; padding: 6px; border-radius: 4px; margin-bottom: 6px;">
+SELECT 'src_usuarios' AS Tabla, COUNT(*) AS Total FROM stg_usuarios
+UNION ALL SELECT 'stg_usuarios', COUNT(*) FROM stg_usuarios
+UNION ALL SELECT 'dim_usuario', COUNT(*) FROM dim_usuario
+UNION ALL SELECT 'fact_inscripciones', COUNT(*) FROM fact_inscripciones
+UNION ALL SELECT 'etl_rechazos', COUNT(*) FROM etl_rechazos;
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Nombre de la Tabla</th>
+              <th>Total de Registros Obtenidos</th>
+              <th>Estado del Registro en ETL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>src_usuarios</strong></td>
+              <td>75</td>
+              <td><span class="badge-info">Fuente Origen</span> (Excel <code>usuarios_crudo</code>)</td>
+            </tr>
+            <tr>
+              <td><strong>stg_usuarios</strong></td>
+              <td>75</td>
+              <td><span class="badge-info">Capa Staging</span> (Datos cargados en bruto)</td>
+            </tr>
+            <tr>
+              <td><strong>dim_usuario</strong></td>
+              <td>71</td>
+              <td><span class="badge-ok">Dimensión Limpia</span> (71 usuarios válidos deduplicados)</td>
+            </tr>
+            <tr>
+              <td><strong>fact_inscripciones</strong></td>
+              <td>98</td>
+              <td><span class="badge-ok">Tabla de Hechos</span> (98 inscripciones válidas)</td>
+            </tr>
+            <tr>
+              <td><strong>etl_rechazos</strong></td>
+              <td>44</td>
+              <td><span class="badge-rej">Tabla de Auditoría</span> (44 rechazos capturados)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="page-footer">
+        <span>MELCHOR ESTRADA JOSÉ LUIS &bull; 336009446</span>
+        <span>Página 3</span>
+      </div>
+    </div>
+
+    <!-- ===== PÁGINA 4: REPORTES GERENCIALES (PUNTOS 6 Y 7) ===== -->
+    <div class="page" id="page-4">
+      <div class="page-header">
+        <span>UNITEC &bull; Analítica Web</span>
+        <span>Puntos 6 y 7: Reportes por Campaña y Curso</span>
+      </div>
+      <div class="page-content">
+        <h2 style="margin-top: 0;">Reportes Gerenciales y Analíticos</h2>
+
+        <h3>Punto 6: Reporte de Inscripciones Válidas por Campaña</h3>
+        <p class="no-indent" style="margin-bottom: 4px;"><strong>Consulta SQL Utilizada:</strong></p>
+        <div style="font-family: var(--font-mono); font-size: 7pt; background: #0F172A; color: #F1F5F9; padding: 5px; border-radius: 4px; margin-bottom: 4px;">
+SELECT c.nombre_campania AS Campania, c.canal AS Canal, COUNT(f.sk_inscripcion) AS Total_Inscripciones, SUM(f.monto_pagado) AS Ingresos_Totales
+FROM fact_inscripciones f JOIN dim_campania c ON f.sk_campania = c.sk_campania
+GROUP BY c.nombre_campania, c.canal ORDER BY Ingresos_Totales DESC;
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Campaña</th>
+              <th>Canal Normalizado</th>
+              <th>Total de Inscripciones</th>
+              <th>Ingresos Totales (MXN)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Reto 30 días</strong></td>
+              <td>Facebook</td>
+              <td>26</td>
+              <td>$21,650.00</td>
+            </tr>
+            <tr>
+              <td><strong>Bienestar Agosto</strong></td>
+              <td>Facebook</td>
+              <td>15</td>
+              <td>$14,200.00</td>
+            </tr>
+            <tr>
+              <td><strong>Campaña Fecha Mala</strong></td>
+              <td>Instagram</td>
+              <td>11</td>
+              <td>$11,150.00</td>
+            </tr>
+            <tr>
+              <td><strong>Referidos Fit</strong></td>
+              <td>Referido</td>
+              <td>14</td>
+              <td>$10,200.00</td>
+            </tr>
+            <tr>
+              <td><strong>Promoción Web</strong></td>
+              <td>Sitio Web</td>
+              <td>8</td>
+              <td>$8,450.00</td>
+            </tr>
+            <tr>
+              <td><strong>Campaña Verano</strong></td>
+              <td>Instagram</td>
+              <td>8</td>
+              <td>$7,900.00</td>
+            </tr>
+            <tr>
+              <td><strong>Campaña IG Extra</strong></td>
+              <td>Instagram</td>
+              <td>8</td>
+              <td>$7,300.00</td>
+            </tr>
+            <tr>
+              <td><strong>Fitness Back to School</strong></td>
+              <td>Google Ads</td>
+              <td>8</td>
+              <td>$4,650.00</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 style="margin-top: 8px;">Punto 7: Reporte de Ingresos por Curso</h3>
+        <p class="no-indent" style="margin-bottom: 4px;"><strong>Consulta SQL Utilizada:</strong></p>
+        <div style="font-family: var(--font-mono); font-size: 7pt; background: #0F172A; color: #F1F5F9; padding: 5px; border-radius: 4px; margin-bottom: 4px;">
+SELECT cu.nombre_curso AS Curso, cu.categoria AS Categoria, cu.modalidad AS Modalidad, COUNT(f.sk_inscripcion) AS Total_Inscripciones, SUM(f.monto_pagado) AS Ingresos_Totales, ROUND(AVG(CAST(f.porcentaje_avance AS FLOAT)), 1) AS Avance_Promedio
+FROM fact_inscripciones f JOIN dim_curso cu ON f.sk_curso = cu.sk_curso
+GROUP BY cu.nombre_curso, cu.categoria, cu.modalidad ORDER BY Ingresos_Totales DESC;
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Curso</th>
+              <th>Categoría</th>
+              <th>Modalidad</th>
+              <th>Inscripciones</th>
+              <th>Ingresos Totales</th>
+              <th>Avance Promedio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Entrenamiento funcional</strong></td>
+              <td>Fitness</td>
+              <td>En vivo</td>
+              <td>19</td>
+              <td>$18,150.00</td>
+              <td>55.3%</td>
+            </tr>
+            <tr>
+              <td><strong>Mindfulness inicial</strong></td>
+              <td>Bienestar</td>
+              <td>Grabado</td>
+              <td>18</td>
+              <td>$15,250.00</td>
+              <td>54.7%</td>
+            </tr>
+            <tr>
+              <td><strong>Fuerza y resistencia</strong></td>
+              <td>Fitness</td>
+              <td>En vivo</td>
+              <td>12</td>
+              <td>$11,750.00</td>
+              <td>38.3%</td>
+            </tr>
+            <tr>
+              <td><strong>Pilates básico</strong></td>
+              <td>Bienestar</td>
+              <td>Híbrido</td>
+              <td>9</td>
+              <td>$8,550.00</td>
+              <td>51.3%</td>
+            </tr>
+            <tr>
+              <td><strong>Movilidad y estiramiento</strong></td>
+              <td>Bienestar</td>
+              <td>Grabado</td>
+              <td>8</td>
+              <td>$7,200.00</td>
+              <td>48.6%</td>
+            </tr>
+            <tr>
+              <td><strong>Cardio express</strong></td>
+              <td>Fitness</td>
+              <td>En vivo</td>
+              <td>9</td>
+              <td>$6,950.00</td>
+              <td>74.3%</td>
+            </tr>
+            <tr>
+              <td><strong>Yoga para principiantes</strong></td>
+              <td>Bienestar</td>
+              <td>Grabado</td>
+              <td>10</td>
+              <td>$6,500.00</td>
+              <td>36.7%</td>
+            </tr>
+            <tr>
+              <td><strong>HIIT para principiantes</strong></td>
+              <td>Fitness</td>
+              <td>En vivo</td>
+              <td>7</td>
+              <td>$5,950.00</td>
+              <td>31.3%</td>
+            </tr>
+            <tr>
+              <td><strong>Nutrición básica</strong></td>
+              <td>Nutrición</td>
+              <td>Híbrido</td>
+              <td>6</td>
+              <td>$5,200.00</td>
+              <td>61.7%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="page-footer">
+        <span>MELCHOR ESTRADA JOSÉ LUIS &bull; 336009446</span>
+        <span>Página 4</span>
+      </div>
+    </div>
+
+    <!-- ===== PÁGINA 5: RECHAZOS Y CUESTIONARIO TEÓRICO (PUNTOS 8 Y 9) ===== -->
+    <div class="page" id="page-5">
+      <div class="page-header">
+        <span>UNITEC &bull; Analítica Web</span>
+        <span>Puntos 8 y 9: Reporte de Rechazos &bull; Cuestionario Teórico</span>
+      </div>
+      <div class="page-content">
+        <h2 style="margin-top: 0;">Auditoría de Rechazos y Cuestionario Teórico</h2>
+
+        <h3>Punto 8: Muestra del Reporte de Registros Rechazados por ETL (Total: 44)</h3>
+        <p class="no-indent" style="margin-bottom: 4px;"><strong>Consulta SQL Utilizada:</strong></p>
+        <div style="font-family: var(--font-mono); font-size: 7pt; background: #0F172A; color: #F1F5F9; padding: 4px; border-radius: 4px; margin-bottom: 4px;">
+SELECT tabla_origen AS Fuente, id_origen AS Clave_Origen, motivo_rechazo AS Motivo, fecha_rechazo AS Cuando_Se_Rechazaron
+FROM etl_rechazos ORDER BY id_rechazo ASC;
+        </div>
+
+        <table class="data-table" style="font-size: 7.5pt;">
+          <thead>
+            <tr>
+              <th>Fuente</th>
+              <th>Clave Origen</th>
+              <th>Motivo de Rechazo</th>
+              <th>Fecha / Hora Rechazo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>stg_usuarios</code></td>
+              <td>72</td>
+              <td><span class="badge-rej">Correo de usuario duplicado</span></td>
+              <td>2026-07-29 01:32:39</td>
+            </tr>
+            <tr>
+              <td><code>stg_usuarios</code></td>
+              <td>73, 74</td>
+              <td><span class="badge-rej">Correo de usuario vacío</span></td>
+              <td>2026-07-29 01:32:39</td>
+            </tr>
+            <tr>
+              <td><code>stg_usuarios</code></td>
+              <td>75</td>
+              <td><span class="badge-rej">Correo de usuario no contiene @</span></td>
+              <td>2026-07-29 01:32:39</td>
+            </tr>
+            <tr>
+              <td><code>stg_cursos</code></td>
+              <td>8</td>
+              <td><span class="badge-rej">Costo base de curso no numérico ("no definido")</span></td>
+              <td>2026-07-29 01:32:39</td>
+            </tr>
+            <tr>
+              <td><code>stg_cursos</code></td>
+              <td>11, 12</td>
+              <td><span class="badge-rej">Curso duplicado / Nombre de curso vacío</span></td>
+              <td>2026-07-29 01:32:39</td>
+            </tr>
+            <tr>
+              <td><code>stg_campanias</code></td>
+              <td>8, 9</td>
+              <td><span class="badge-rej">Presupuesto no numérico / Campaña duplicada</span></td>
+              <td>2026-07-29 01:32:39</td>
+            </tr>
+            <tr>
+              <td><code>stg_inscripciones</code></td>
+              <td>4, 23, 36...</td>
+              <td><span class="badge-rej">Curso inexistente en dim_curso</span></td>
+              <td>2026-07-29 01:32:39</td>
+            </tr>
+            <tr>
+              <td><code>stg_inscripciones</code></td>
+              <td>17, 34, 51...</td>
+              <td><span class="badge-rej">Usuario inexistente en dim_usuario</span></td>
+              <td>2026-07-29 01:32:39</td>
+            </tr>
+            <tr>
+              <td><code>stg_inscripciones</code></td>
+              <td>62, 132</td>
+              <td><span class="badge-rej">Fecha de inscripción inválida / Inscripción duplicada</span></td>
+              <td>2026-07-29 01:32:39</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 style="margin-top: 6px;">Punto 9: Cuestionario Teórico y Conclusión</h3>
+        
+        <div style="font-size: 8pt; color: #334155;">
+          <p class="no-indent"><strong>1. ¿Qué significa ETL?</strong><br>
+          <strong>ETL</strong> es el acrónimo de <em>Extract, Transform, Load</em> (Extracción, Transformación y Carga). Es el proceso de ingeniería de datos mediante el cual se leen datos de diversas fuentes transaccionales, se limpian y estandarizan mediante reglas de negocio, y se cargan en un almacén de datos (Data Warehouse) con arquitectura dimensional.</p>
+
+          <p class="no-indent"><strong>2. ¿Por qué no conviene cargar datos crudos directamente al datawarehouse?</strong><br>
+          Cargar datos crudos en el Data Warehouse viola el principio de calidad analítica ("Garbage In, Garbage Out"). Los datos sin limpiar generan reportes gerenciales distorsionados, duplican ingresos, rompen consultas relacionales e impiden la correcta toma de decisiones estratégicas.</p>
+
+          <p class="no-indent"><strong>3. ¿Qué es un hecho huérfano?</strong><br>
+          Un hecho huérfano es un registro en la tabla de hechos cuya clave foránea apunta a una dimensión que no existe (por ejemplo, una inscripción asociada a un correo de usuario inexistente o rechazado).</p>
+
+          <p class="no-indent"><strong>4. ¿Qué problema representa un correo vacío en usuarios?</strong><br>
+          El correo representa la clave natural e identificador único del usuario. Un correo vacío rompe la unicidad de las dimensiones e impide asociar transacciones de pago e inscripciones con clientes reales.</p>
+
+          <p class="no-indent"><strong>5. ¿Cuál crees que es la desdicha más triste que sufrieron los Huérfanos Baudelaire y por qué?</strong><br>
+          La desdicha más trágica fue la pérdida simultánea de sus padres y la destrucción de su hogar en el incendio inicial. Esto los privó de la protección amorosa familiar y los dejó expuestos en un mundo hostil ante la avaricia del Conde Olaf, obligándolos a depender únicamente de su ingenio y unión de hermanos.</p>
+        </div>
+
+        <div class="info-card" style="margin-top: 6px; border-left-color: var(--color-accent); font-size: 7.5pt;">
+          <strong>Conclusión Práctica:</strong> El desarrollo de esta práctica permitió comprender el valor estratégico de una arquitectura de Staging desacoplada y el control de calidad mediante tablas de auditoría (<code>etl_rechazos</code>). La implementación del Modelo Estrella sustentó la generación de reportes ejecutivos confiables mediante consultas SQL eficientes.
+        </div>
+      </div>
+      <div class="page-footer">
+        <span>MELCHOR ESTRADA JOSÉ LUIS &bull; 336009446</span>
+        <span>Página 5</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'neutral',
+      securityLevel: 'loose',
+      flowchart: {
+        curve: 'basis',
+        useMaxWidth: true,
+        htmlLabels: true
+      }
+    });
+  </script>
+</body>
+</html>

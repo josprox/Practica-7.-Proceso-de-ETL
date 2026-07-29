@@ -1,0 +1,161 @@
+﻿id_pago,correo,fecha_pago,monto,metodo_pago,referencia_pago,estatus_pago
+1,alan45@correo.com,02-07-2026,1100,PayPal,PAY-1001,Pagado
+2,felipe26@correo.com,2026-08-03,1200,tarjeta,PAY-1002,Pagado
+3,valeria46@correo.com,04-07-2026,900,Tarjeta,PAY-1003,Pagado
+4,gael36@correo.com,2026-07-05,500,,PAY-1004,PAGADO
+5,diana30@correo.com,06-07-2026,800,spei,PAY-1005,Pagado
+6,andrea18@correo.com,2026-07-07,500,PayPal,PAY-1006,pagado
+7,felipe47@correo.com,2026/07/08,650,PayPal,PAY-1007,PAGADO
+8,patricio54@correo.com,2026/07/09,800,SPEI,PAY-1008,pendiente
+9,felipe47@correo.com,10-07-2026,700,PayPal,PAY-1009,Pagado
+10,renata44@correo.com,2026-07-11,MXN 1200,tarjeta,PAY-1010,pagado
+11,alonso51@correo.com,12-07-2026,650,Efectivo,PAY-1011,Pagado
+12,isabel69@correo.com,2026-07-13,$1200,paypal,PAY-1012,cancelado
+13, PAOLA34@CORREO.COM ,2026-08-14,950,tarjeta,PAY-1013,pagado
+14,regina61@correo.com,2026-07-15,1500,paypal,PAY-1014,pagado
+15,mariana9@correo.com,2026-08-16,900,Efectivo,PAY-1015,pagado
+16, noexiste_pago16@correo.com ,2026-07-17,900,,PAY-1016,pagado
+17,tomas13@correo.com,2026/07/18,1500,SPEI,PAY-1017,Pagado
+18,diana48@correo.com,2026-08-19,-250,Efectivo,PAY-1018,pagado
+19,laura63@correo.com,2026-08-20,900,Tarjeta,PAY-1019,Pagado
+20,luna28@correo.com,2026-08-01,MXN 1200,spei,PAY-1020,PAGADO
+21,tomas13@correo.com,22-07-2026,1500,paypal,PAY-1021,Pagado
+22,gael36@correo.com,2026/07/23,650,,PAY-1022,PAGADO
+23,luna28@correo.com,2026-07-24,500,paypal,PAY-1023,pagado
+24,ivan27@correo.com,2026-07-25,$1500,spei,PAY-1024,pendiente
+25,luna28@correo.com,2026/07/26,950,SPEI,PAY-1025,pagado
+26, GAEL36@CORREO.COM ,2026/07/27,700,PayPal,PAY-1026,pagado
+27,carlos4@correo.com,2026/07/28,500,paypal,PAY-1027,PAGADO
+28,alan42@correo.com,2026-07-01,700,PayPal,PAY-1028,pagado
+29,samuel17@correo.com,2026-08-10,1500,tarjeta,PAY-1029,pagado
+30,regina61@correo.com,2026-08-11,MXN 950,tarjeta,PAY-1030,PAGADO
+31,gael29@correo.com,2026-07-04,1500,PayPal,PAY-1031,PAGADO
+32, noexiste_pago32@correo.com ,2026-07-05,1200,Efectivo,PAY-1032,rechazado
+33,diego14@correo.com,2026-08-14,1200,tarjeta,PAY-1005,Pagado
+34,gael19@correo.com,2026-07-07,700,PayPal,PAY-1034,PAGADO
+35,ana@correo.com,08-07-2026,1100,PayPal,PAY-1035,PAGADO
+36,angel56@correo.com,2026-07-09,-250,spei,PAY-1036,rechazado
+37,mariana58@correo.com,2026/07/10,1100,paypal,PAY-1037,Pagado
+38,patricio54@correo.com,2026-07-11,950,Efectivo,PAY-1038,PAGADO
+39, BIANCA33@CORREO.COM ,12-07-2026,700,,PAY-1039,pagado
+40,natalia11@correo.com,2026-07-13,MXN 1100,tarjeta,PAY-1040,cancelado
+41,diana48@correo.com,2026/07/14,1500,Tarjeta,PAY-1041,PAGADO
+42,ana@correo.com,15-07-2026,650,Efectivo,PAY-1042,PAGADO
+43,bianca55@correo.com,2026-07-16,900,PayPal,PAY-1043,pagado
+44,diego65@correo.com,2026/07/17,700,,PAY-1044,Pagado
+45,diego14@correo.com,18-07-2026,1500,paypal,PAY-1045,Pagado
+46,gael29@correo.com,2026-08-07,1500,Tarjeta,PAY-1046,PAGADO
+47,luna35@correo.com,2026-07-20,700,PayPal,PAY-1047,Pagado
+48, noexiste_pago48@correo.com ,21-07-2026,$500,SPEI,PAY-1048,Pagado
+49,alicia52@correo.com,2026-07-22,700,Tarjeta,PAY-1049,PAGADO
+50,lucia68@correo.com,2026/07/23,MXN 1100,Efectivo,PAY-1050,Pagado
+51,brenda21@correo.com,24-07-2026,900,paypal,PAY-1051,PAGADO
+52, NATALIA11@CORREO.COM ,2026-07-25,700,SPEI,PAY-1052,pendiente
+53,felipe7@correo.com,2026-07-26,900,,PAY-1053,Pagado
+54,laura63@correo.com,2026-08-15,-250,PayPal,PAY-1054,PAGADO
+55,raul15@correo.com,28-07-2026,1100,tarjeta,PAY-1055,PAGADO
+56,laura63@correo.com,01-07-2026,500,spei,PAY-1056,rechazado
+57,erick8@correo.com,2026-07-02,800,PayPal,PAY-1057,pagado
+58,bianca33@correo.com,03-07-2026,950,tarjeta,PAY-1058,Pagado
+59,angel56@correo.com,2026/07/04,700,Efectivo,PAY-1059,PAGADO
+60,diana30@correo.com,05-07-2026,$MXN 650,Efectivo,PAY-1060,cancelado
+61,bianca6@correo.com,2026-08-02,500,,PAY-1061,Pagado
+62,bianca55@correo.com,2026-08-03,1100,PayPal,PAY-1062,Pagado
+63,pablo3@correo.com,08-07-2026,700,,PAY-1063,Pagado
+64, noexiste_pago64@correo.com ,2026-08-05,650,spei,PAY-1064,rechazado
+65, ALICIA52@CORREO.COM ,2026-07-10,1100,PayPal,PAY-1065,Pagado
+66,gael29@correo.com,11-07-2026,700,tarjeta,PAY-1005,PAGADO
+67,raul15@correo.com,2026/07/12,950,paypal,PAY-1067,PAGADO
+68,gael19@correo.com,2026/07/13,650,SPEI,PAY-1068,PAGADO
+69,felipe26@correo.com,2026/07/14,700,tarjeta,PAY-1069,PAGADO
+70,patricio64@correo.com,fecha pendiente,MXN 1200,paypal,PAY-1070,Pagado
+71,sebastian20@correo.com,2026-08-12,650,,PAY-1071,PAGADO
+72,emilio39@correo.com,17-07-2026,-250,paypal,PAY-1072,pendiente
+73,roberto10@correo.com,18-07-2026,1200,,PAY-1073,pagado
+74,diana48@correo.com,19-07-2026,650,tarjeta,PAY-1074,PAGADO
+75,diego65@correo.com,2026-08-16,1200,Tarjeta,PAY-1075,PAGADO
+76,hector25@correo.com,21-07-2026,1200,SPEI,PAY-1076,pagado
+77,mariana58@correo.com,2026-07-22,950,tarjeta,PAY-1077,PAGADO
+78, JULIA23@CORREO.COM ,2026-07-23,800,,PAY-1078,PAGADO
+79,luis67@correo.com,2026/07/24,950,paypal,PAY-1079,Pagado
+80, noexiste_pago80@correo.com ,25-07-2026,MXN 500,paypal,PAY-1080,pagado
+81,rafael43@correo.com,2026-07-26,1500,Efectivo,PAY-1081,Pagado
+82,sebastian20@correo.com,27-07-2026,650,SPEI,PAY-1082,Pagado
+83,alonso51@correo.com,2026/07/28,650,PayPal,PAY-1083,Pagado
+84,rafael43@correo.com,2026/07/01,$1500,tarjeta,PAY-1084,cancelado
+85,bianca55@correo.com,02-07-2026,500,paypal,PAY-1085,pagado
+86,luna28@correo.com,03-07-2026,1200,spei,PAY-1086,pagado
+87,sebastian20@correo.com,2026-07-04,900,tarjeta,PAY-1087,PAGADO
+88,lucia68@correo.com,2026-07-05,950,SPEI,PAY-1088,pendiente
+89,monica49@correo.com,2026/07/06,700,SPEI,PAY-1089,PAGADO
+90,brenda22@correo.com,2026-08-11,-250,Efectivo,PAY-1090,PAGADO
+91, HECTOR31@CORREO.COM ,2026-08-12,900,,PAY-1091,PAGADO
+92,hector31@correo.com,09-07-2026,1200,spei,PAY-1092,PAGADO
+93,renata57@correo.com,2026-08-14,900,Efectivo,PAY-1093,PAGADO
+94,patricio54@correo.com,2026/07/11,800,SPEI,PAY-1094,pagado
+95,oscar62@correo.com,12-07-2026,1500,tarjeta,PAY-1095,PAGADO
+96, noexiste_pago96@correo.com ,13-07-2026,$650,SPEI,PAY-1096,PAGADO
+97,mariana58@correo.com,2026/07/14,1100,tarjeta,PAY-1097,Pagado
+98,alan45@correo.com,2026-07-15,1100,Tarjeta,PAY-1098,PAGADO
+99,diana48@correo.com,2026/07/16,1100,tarjeta,PAY-1005,pagado
+100,carlos4@correo.com,17-07-2026,MXN 650,paypal,PAY-1100,Pagado
+101,andrea18@correo.com,2026-07-18,900,,PAY-1101,pagado
+102,regina61@correo.com,2026-08-03,500,tarjeta,PAY-1102,Pagado
+103,luna28@correo.com,2026/07/20,1500,Efectivo,PAY-1103,Pagado
+104, HECTOR31@CORREO.COM ,21-07-2026,650,Tarjeta,PAY-1104,Pagado
+105,patricio54@correo.com,fecha pendiente,650,tarjeta,PAY-1105,PAGADO
+106,isabel69@correo.com,2026-07-23,1500,spei,PAY-1106,pagado
+107,brenda38@correo.com,2026-08-08,500,paypal,PAY-1107,PAGADO
+108,patricio54@correo.com,2026/07/25,-250,paypal,PAY-1108,pagado
+109,lucia68@correo.com,2026-07-26,1100,,PAY-1109,PAGADO
+110,alan50@correo.com,27-07-2026,MXN 900,Tarjeta,PAY-1110,pagado
+111,alan45@correo.com,2026/07/28,650,paypal,PAY-1111,pagado
+112, noexiste_pago112@correo.com ,01-07-2026,700,,PAY-1112,cancelado
+113,oscar62@correo.com,2026/07/02,700,tarjeta,PAY-1113,Pagado
+114,isabel5@correo.com,03-07-2026,800,Tarjeta,PAY-1114,pagado
+115,arturo41@correo.com,04-07-2026,1500,Efectivo,PAY-1115,Pagado
+116,bianca33@correo.com,2026-07-05,800,PayPal,PAY-1116,PAGADO
+117, FELIPE7@CORREO.COM ,06-07-2026,900,tarjeta,PAY-1117,Pagado
+118,alicia52@correo.com,2026-08-19,1100,paypal,PAY-1118,Pagado
+119,patricio64@correo.com,08-07-2026,1500,PayPal,PAY-1119,PAGADO
+120,bianca55@correo.com,2026-07-09,$MXN 1100,SPEI,PAY-1120,pendiente
+121,brenda38@correo.com,10-07-2026,650,tarjeta,PAY-1121,PAGADO
+122,brenda38@correo.com,11-07-2026,1200,Efectivo,PAY-1122,PAGADO
+123,renata57@correo.com,12-07-2026,1200,Tarjeta,PAY-1123,Pagado
+124,angel56@correo.com,13-07-2026,500,tarjeta,PAY-1124,cancelado
+125,alicia52@correo.com,14-07-2026,1500,SPEI,PAY-1125,pagado
+126,renata57@correo.com,2026-07-15,-250,tarjeta,PAY-1126,PAGADO
+127,felipe47@correo.com,16-07-2026,1100,Tarjeta,PAY-1127,pagado
+128, noexiste_pago128@correo.com ,17-07-2026,950,,PAY-1128,pagado
+129,andrea18@correo.com,18-07-2026,1100,paypal,PAY-1129,Pagado
+130, JIMENA32@CORREO.COM ,2026-07-19,MXN 500,SPEI,PAY-1130,PAGADO
+131,alan50@correo.com,2026-07-20,900,PayPal,PAY-1131,Pagado
+132,luna28@correo.com,21-07-2026,$1200,spei,PAY-1005,pagado
+133,andrea18@correo.com,2026-07-22,1200,SPEI,PAY-1133,Pagado
+134,sebastian12@correo.com,23-07-2026,950,tarjeta,PAY-1134,PAGADO
+135,brenda38@correo.com,24-07-2026,700,SPEI,PAY-1135,PAGADO
+136,gael29@correo.com,2026-07-25,800,SPEI,PAY-1136,Pagado
+137,patricio64@correo.com,2026-07-26,950,paypal,PAY-1137,PAGADO
+138,samuel17@correo.com,2026-07-27,650,PayPal,PAY-1138,PAGADO
+139,oscar62@correo.com,2026-08-20,1100,tarjeta,PAY-1139,Pagado
+140,roberto10@correo.com,fecha pendiente,MXN 1200,paypal,PAY-1140,Pagado
+141,ana@correo.com,2026/07/02,700,Efectivo,PAY-1141,pagado
+142,elena16@correo.com,2026/07/03,900,SPEI,PAY-1142,Pagado
+143, GAEL29@CORREO.COM ,04-07-2026,1500,PayPal,PAY-1143,Pagado
+144, noexiste_pago144@correo.com ,05-07-2026,-250,PayPal,PAY-1144,pendiente
+145,isabel69@correo.com,2026-07-06,1500,SPEI,PAY-1145,PAGADO
+146,sebastian20@correo.com,2026/07/07,950,Tarjeta,PAY-1146,pagado
+147,bianca6@correo.com,08-07-2026,800,Efectivo,PAY-1147,PAGADO
+148,carlos4@correo.com,2026-08-09,1500,PayPal,PAY-1148,cancelado
+149,emilio39@correo.com,2026-08-10,800,Efectivo,PAY-1149,Pagado
+150,roberto10@correo.com,2026-07-11,MXN 700,,PAY-1150,Pagado
+151,renata60@correo.com,2026/07/12,950,SPEI,PAY-1151,PAGADO
+152,arturo41@correo.com,13-07-2026,1100,SPEI,PAY-1152,PAGADO
+153,pablo66@correo.com,2026-07-14,950,spei,PAY-1153,pagado
+154,luna35@correo.com,2026-08-15,800,SPEI,PAY-1154,pagado
+155,brenda38@correo.com,2026-08-16,1100,spei,PAY-1155,Pagado
+156, ARTURO41@CORREO.COM ,2026/07/17,$700,,PAY-1156,pendiente
+157,renata60@correo.com,2026-08-18,900,,PAY-1157,pagado
+158,alonso51@correo.com,2026-08-19,800,spei,PAY-1158,Pagado
+159,felipe7@correo.com,2026-07-20,900,,PAY-1159,PAGADO
+160, noexiste_pago160@correo.com ,21-07-2026,MXN 1500,Tarjeta,PAY-1160,pagado

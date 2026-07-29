@@ -1,0 +1,67 @@
+# ==========================================
+# Variables de entorno y credenciales (SECRETO)
+# ==========================================
+.env
+.env.local
+.env.*.local
+
+# ==========================================
+# Entornos virtuales de Python
+# ==========================================
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ==========================================
+# Bytecode de Python y caché de ejecución
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.python-version
+
+# ==========================================
+# Archivos de registro y depuración (Logs)
+# ==========================================
+*.log
+*.log.*
+logs/
+
+# ==========================================
+# Archivos temporales de Microsoft Office
+# ==========================================
+~$*.xlsx
+~$*.docx
+~$*.pptx
+~$*.csv
+
+# ==========================================
+# Pruebas y Cobertura de código (Testing)
+# ==========================================
+.pytest_cache/
+.coverage
+htmlcov/
+.coverage.*
+
+# ==========================================
+# Archivos del sistema operativo y editores
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Configuraciones de IDEs
+.vscode/
+!.vscode/settings.json.example
+.idea/
+*.swp
+*.swo
+*~
