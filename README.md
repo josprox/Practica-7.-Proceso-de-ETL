@@ -86,8 +86,8 @@ Script orquestador principal que ejecuta la secuencia de los pasos 01 a 04 captu
 
 ### 1. Clonar el repositorio e instalar dependencias
 ```bash
-git clone <URL_DEL_REPOSITO>
-cd <NOMBRE_DEL_PROYECTO>
+git clone https://github.com/josprox/Practica-7.-Proceso-de-ETL.git
+cd Practica-7.-Proceso-de-ETL
 pip install -r requirements.txt
 ```
 
